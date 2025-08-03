@@ -1,13 +1,15 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 
 data = pd.read_csv('C:/Users/joaop/projetos/learn_ml/pandas/files/athlete_events.csv')
 
-athletes_df = pd.DataFrame(data)
+data2 = data.dropna() # Drop lines with n/a 
 
-male_athletes_df = athletes_df.loc[athletes_df['Sex'] == 'M']
-female_athletes_df = athletes_df.loc[athletes_df['Sex'] == 'F']
+is_null = data.isnull()
 
-male_athletes_df.hist(column = 'Weight', bins = 100)
-female_athletes_df.hist(column = 'Weight', bins = 100)
-plt.show() # Numbers columns only
+missing = data.isnull().sum()
+missing_perc = (data.isnull().sum() / len(data['ID'])) * 100
+
+data['Medal'].fillna('None', inplace = True)
+data['Age'].fillna(data['Age'].mean(), inplace = True)
+data['Height'].fillna(data['Height'].mean(), inplace = True)
+data['Weight'].fillna(data['Weight'].mean(), inplace = True)
